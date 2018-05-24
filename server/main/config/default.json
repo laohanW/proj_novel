@@ -1,0 +1,48 @@
+{
+    "env": "development",
+    "profile": false,
+    "system":{
+        "language": "zh-cn"
+    },
+    "debug": "main:*",
+    "server": {
+        "port": 3001,
+        "routes": {
+            "cors": true
+        },
+        "host": "localhost"
+    },
+    "db": {
+        "host":"localhost", 
+        "port": 3306,
+        "username": "root",
+        "password": "123456",
+        "database": "development", 
+        "dialect": "mysql",
+        "logging":false,
+        "dialectOptions": {
+            "charset": "utf8mb4",
+            "collate": "utf8mb4_unicode_520_ci",
+            "supportBigNumbers": true,
+            "bigNumberStrings": true
+        },
+        "pool": {
+            "max": 50,
+            "min": 0,
+            "idle": 10000
+        },
+        "operatorsAliases": false
+    },
+    "redis": {
+        "host":"127.0.0.1",
+        "port":6379,
+        "path":null,
+        "url":null
+    },
+    "auth":{
+        "key": "secret",
+        "verifyOptions": {
+            "ignoreExpiration": true
+        }
+    }
+}

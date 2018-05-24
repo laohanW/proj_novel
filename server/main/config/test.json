@@ -1,0 +1,6 @@
+{
+  "db": {
+    "database": "test",
+    "logging":false
+  }
+}

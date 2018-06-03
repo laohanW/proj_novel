@@ -1,4 +1,3 @@
-
-module.exports = function (request, h) {
-  return 'base test';
-};
+module.exports = function (req, reply) {
+  reply.send({hello: 'wolrd'})
+}

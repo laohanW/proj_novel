@@ -1,82 +1,72 @@
-const gulp = require('gulp')
-const eslint = require('gulp-eslint')
-const nodemon = require('gulp-nodemon')
-const friendlyFormatter = require('eslint-friendly-formatter')
+const gulp=require('gulp')
+const eslint =require('gulp-eslint')
+const nodemon=require('gulp-nodemon')
+const friendlyFormatter=require('eslint-friendly-formatter')
 
-var jsScript = 'node'
-if (process.env.npm_config_argv !== undefined && process.env.npm_config_argv.indexOf('debug') > 0) {
-  jsScript = 'node debug'
+var jsScript='node'
+if(process.env.npm_config_argv !==undefined && process.env.npm_config_argv.indexOf('debug')>0){
+  jsScript='node debug'
 }
 
-function lintOne (aims) {
-  return gulp.src(aims)
-    .pipe(eslint({configFile: './.eslintrc.js'}))
-    .pipe(eslint.format(friendlyFormatter))
-    .pipe(eslint.results(results => {
-      // Called once for all ESLint results.
-      console.log(`- Total Results: ${results.length}`)
-      console.log(`- Total Warnings: ${results.warningCount}`)
-      console.log(`- Total Errors: ${results.errorCount}`)
-      console.log('Finished eslint')
-    }))
+function lineOne(anims){
+  return gulp.src(anims)
+  .pipe(eslint({configFile:'./.eslintrc.js'}))
+  .pipe(eslint.format(friendlyFormatter))
+  .pipe(eslint.results(results=>{
+    console.log(`--Total Results:${results.length}`)
+    console.log(`--Total Warning:${results.warningCount}`)
+    console.log(`--Total Errors:${results.errorCount}`)
+    console.log('Finishd eslint')
+  }))
 }
-
-gulp.task('ESlint', () => {
-  return gulp.src(['src/**/*.js', '!node_modules/**'])
-    .pipe(eslint({configFile: './.eslintrc.js'}))
-    .pipe(eslint.format(friendlyFormatter))
-    // .pipe(eslint.failAfterError())
-    .pipe(eslint.results(results => {
-      // Called once for all ESLint results.
-      console.log(`- Total Results: ${results.length}`)
-      console.log(`- Total Warnings: ${results.warningCount}`)
-      console.log(`- Total Errors: ${results.errorCount}`)
-    }))
+gulp.task('Eslint',()=>{
+  return gulp.src(['src/**/*.js','!node_modules/**'])
+  .pipe(eslint({configFile:'./.eslintrc.js'}))
+  .pipe(eslint.format(friendlyFormatter))
+  .pipe(eslint.results(results=>{
+    console.log(`--Total Results:${results.length}`)
+    console.log(`--Total Warning:${results.warningCount}`)
+    console.log(`--Total Errors:${results.errorCount}`)
+    console.log('Finishd eslint')
+  }))
 })
-
-gulp.task('ESlint_nodemon', ['ESlint'], function () {
+gulp.task('Eslint_nodemon',['Eslint'],function(){
   var stream = nodemon({
-    script: 'build/dev-server.js',
-    execMap: {
-      js: jsScript
+    script:'build/dev-server.js',
+    execMap:{
+      js:jsScript
     },
-    tasks: function (changedFiles) {
-      lintOne(changedFiles)
+    tasks:function(changeFiles){
+      lineOne(changeFiles)
       return []
     },
-    verbose: true,
-    ignore: ['build/*.js', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log'],
-    env: {
-      NODE_ENV: 'development'
+    verbose:true,
+    ignore:['build/*.js','dist/*.js','nodemon.json','.git','node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log'],
+    env:{
+      NODE_ENV:'development'
     },
-    ext: 'js json'
+    ext:'js json'
   })
+  return stream.on('restart',function(){
 
-  return stream
-    .on('restart', function () {
-      // console.log('Application has restarted!')
-    })
-    .on('crash', function () {
-      console.error('Application has crashed!\n')
-      // stream.emit('restart', 20)  // restart the server in 20 seconds
-    })
+  }).on('crash',function(){
+    console.error('Application has crash !\/')
+  })
 })
-
-gulp.task('nodemon', function () {
+gulp.task('nodemon',function(){
   return nodemon({
-    script: 'build/dev-server.js',
-    execMap: {
-      js: jsScript
+    script:'build/dev-server.js',
+    execMap:{
+      js:jsScript
     },
-    verbose: true,
-    ignore: ['build/*.js', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js'],
-    env: {
-      NODE_ENV: 'development'
+    verbose:true,
+    ignore:['build/*.js','dist/*.js','nodemon.json','.git','node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log'],
+    env:{
+      NODE_ENV:'development'
     },
-    ext: 'js json'
+    ext:'js json'
   })
 })
-
-gulp.task('default', ['ESlint', 'ESlint_nodemon'], function () {
-  // console.log('ESlin检查完成')
+gulp.task('default',['Eslint','Eslint_nodemon'],function(){
+  
 })

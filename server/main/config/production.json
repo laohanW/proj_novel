@@ -1,7 +1,7 @@
 {
-    "env":"production",
-    "debug":null,
-    "db":{
-        "logging":false
-    }
+  "env":"production",
+  "debug":null,
+  "db":{
+      "logging":false
+  }
 }

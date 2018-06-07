@@ -4,7 +4,7 @@
   "system":{
       "language": "zh-cn"
   },
-  "debug": "main:*",
+  "debug": "*",
   "server": {
       "port": 3001,
       "routes": {
@@ -17,9 +17,9 @@
       "port": 3306,
       "username": "root",
       "password": "123456",
-      "database": "development", 
+      "database": "novel", 
       "dialect": "mysql",
-      "logging":false,
+      "logging":true,
       "dialectOptions": {
           "charset": "utf8mb4",
           "collate": "utf8mb4_unicode_520_ci",
@@ -44,5 +44,8 @@
       "verifyOptions": {
           "ignoreExpiration": true
       }
+  },
+  "jwt":{
+      "secret":"supersecret"
   }
 }

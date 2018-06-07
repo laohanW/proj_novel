@@ -12,7 +12,7 @@ module.exports = async function (fastify, options) {
     nodir: true,
     strict: true,
     ignore: [],
-    cwd: Path.dirname(options.modelIndex)
+    cwd: options.cwd || process.cwd()
   }
   const isArray = Array.isArray || function (arr) {
     return {}.toString.call(arr) === '[object Array]';

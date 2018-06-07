@@ -24,10 +24,14 @@ module.exports = function (fastify) {
     exposeRoute: true,
     routePrefix: '/documentation'
   })
-  fastify.register(require('fastify-register-routes'), {
-    regex: /\.route.js/,
-    showTable: true,
-    path: Path.join(__dirname, '../routes')
+  fastify.register(require('./route.plugin'), {
+    pattern: '../routes/*.route.js',
+    ignore: []
+  })
+  fastify.register(require('./jwt.plugin'), {
+    secret: function (req, reply, callback) {
+      callback(null, Config.get('jwt.secret'))
+    }
   })
   fastify.register(require('./sequelize.plugin'), {
     pattern: './*.model.js',
@@ -41,8 +45,8 @@ module.exports = function (fastify) {
       options: JSON.parse(JSON.stringify(Config.get('db')))
     }
   })
-  // fastify.register(require('./redis.plugin'),{
-  //   connection: JSON.parse(JSON.stringify(Config.get('redis'))),
-  //   cacheIndex: Path.resolve(__dirname, '../caches/index.js')
-  // })
+  fastify.register(require('./redis.plugin'), {
+    connection: JSON.parse(JSON.stringify(Config.get('redis'))),
+    cacheIndex: Path.resolve(__dirname, '../caches/index.js')
+  })
 }

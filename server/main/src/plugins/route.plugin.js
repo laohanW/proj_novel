@@ -3,7 +3,7 @@
 const glob = require('glob')
 const Path = require('path')
 
-module.exports = function (server, options, next) {
+module.exports = async function (server, options) {
   const isArray = Array.isArray || function (arr) {
     return {}.toString.call(arr) === '[object Array]';
   };
@@ -19,7 +19,7 @@ module.exports = function (server, options, next) {
     strict: true,
     cwd: options.cwd || Path.dirname(__filename)
   }
-  const matchs = glob.sync(options.pattern, globOptions)
+  const matchs = await glob.sync(options.pattern, globOptions)
   matchs.forEach(match => {
     var route = require(globOptions.cwd + '/' + match)
     const cls = route.default || route;
@@ -33,5 +33,4 @@ module.exports = function (server, options, next) {
       console.log(cls.url)
     }
   })
-  next()
 }

@@ -1,4 +1,3 @@
-
 const Sequelize = require('sequelize');
 module.exports = {
   model: {
@@ -14,7 +13,7 @@ module.exports = {
       }
     },
     options: {
-      timestamp: false
+      timestamps: false
       // freezeTableName: true
     }
   }

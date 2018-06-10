@@ -24,15 +24,10 @@ module.exports = function (fastify) {
     exposeRoute: true,
     routePrefix: '/documentation'
   })
-  fastify.register(require('./route.plugin'), {
-    pattern: '../routes/*.route.js',
-    ignore: []
-  })
-  fastify.register(require('./jwt.plugin'), {
-    secret: function (req, reply, callback) {
-      callback(null, Config.get('jwt.secret'))
-    }
-  })
+  let sepuelizeOptions = JSON.parse(JSON.stringify(Config.get('db')))
+  sepuelizeOptions.logging = function () {
+    return console.log
+  }
   fastify.register(require('./sequelize.plugin'), {
     pattern: './*.model.js',
     modelIndex: Path.resolve(__dirname, '../models/index.js'),
@@ -42,11 +37,23 @@ module.exports = function (fastify) {
       database: Config.get('db.database'),
       username: Config.get('db.username'),
       password: Config.get('db.password'),
-      options: JSON.parse(JSON.stringify(Config.get('db')))
+      options: sepuelizeOptions
     }
   })
   fastify.register(require('./redis.plugin'), {
     connection: JSON.parse(JSON.stringify(Config.get('redis'))),
     cacheIndex: Path.resolve(__dirname, '../caches/index.js')
+  })
+  fastify.register(require('./service.plugin'), {
+    arr: ['dao', 'schema', 'service', 'handler']
+  })
+  fastify.register(require('./route.plugin'), {
+    pattern: '../routes/*.route.js',
+    ignore: []
+  })
+  fastify.register(require('./jwt.plugin'), {
+    secret: function (req, reply, callback) {
+      callback(null, Config.get('jwt.secret'))
+    }
   })
 }

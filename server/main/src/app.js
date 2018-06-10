@@ -8,9 +8,12 @@ const plugins = require('./plugins');
 plugins(fastify)
 fastify.ready(function () {
   // console.log(fastify.printRoutes())
-  debug('ssss')
+  debug('ready')
   fastify.listen(3000, function (err) {
-    if (err) throw err
-    console.log(`listening on ${fastify.server.address().address} :${fastify.server.address().port}`)
+    if (err) {
+      throw err
+    } else {
+      debug(`listening on ${fastify.server.address().address} :${fastify.server.address().port}`)
+    }
   })
 })

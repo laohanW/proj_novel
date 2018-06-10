@@ -3,7 +3,6 @@ const Glob = require('glob');
 const Path = require('path');
 const Sequelize = require('sequelize');
 const LocalStorage = require('continuation-local-storage');
-
 module.exports = async function (fastify, options) {
   const namespace = LocalStorage.createNamespace(options.namespace);
   let tables = {};
@@ -12,7 +11,7 @@ module.exports = async function (fastify, options) {
     nodir: true,
     strict: true,
     ignore: [],
-    cwd: options.cwd || process.cwd()
+    cwd: Path.dirname(options.modelIndex)
   }
   const isArray = Array.isArray || function (arr) {
     return {}.toString.call(arr) === '[object Array]';
@@ -21,11 +20,13 @@ module.exports = async function (fastify, options) {
     return isArray(value) ? value : [value];
   };
   const matches = await Glob.sync(options.pattern, globtions);
+  console.log(matches)
   matches.forEach(match => {
     const load = require(globtions.cwd + '/' + match);
     const conHandlerName = Path.basename(match, Path.extname(match));
     const handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
     const cls = load.default || load;
+    console.log(match)
     tables[handlerName] = cls;
   });
   Sequelize.useCLS(namespace);

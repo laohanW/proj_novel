@@ -45,7 +45,7 @@ module.exports = function (fastify) {
     cacheIndex: Path.resolve(__dirname, '../caches/index.js')
   })
   fastify.register(require('./service.plugin'), {
-    arr: ['dao', 'schema', 'service', 'handler']
+    arr: ['schema', 'service', 'handler']
   })
   fastify.register(require('./route.plugin'), {
     pattern: '../routes/*.route.js',

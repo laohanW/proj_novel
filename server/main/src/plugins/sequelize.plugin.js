@@ -7,6 +7,7 @@ module.exports = async function (fastify, options) {
   const namespace = LocalStorage.createNamespace(options.namespace);
   let tables = {};
   let defineTables = {};
+  let target = require(options.modelIndex);
   const globtions = {
     nodir: true,
     strict: true,
@@ -19,16 +20,6 @@ module.exports = async function (fastify, options) {
   const cast = (value) => {
     return isArray(value) ? value : [value];
   };
-  const matches = await Glob.sync(options.pattern, globtions);
-  console.log(matches)
-  matches.forEach(match => {
-    const load = require(globtions.cwd + '/' + match);
-    const conHandlerName = Path.basename(match, Path.extname(match));
-    const handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
-    const cls = load.default || load;
-    console.log(match)
-    tables[handlerName] = cls;
-  });
   Sequelize.useCLS(namespace);
   const sequelize = new Sequelize(
     options.sequelize.database,
@@ -36,6 +27,20 @@ module.exports = async function (fastify, options) {
     options.sequelize.password,
     options.sequelize.options
   );
+  const matches = await Glob.sync(options.pattern, globtions);
+  matches.forEach(match => {
+    const load = require(globtions.cwd + '/' + match);
+    const conHandlerName = Path.basename(match, Path.extname(match));
+    const handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
+    const cls = load.default || load;
+    console.log(match)
+    tables[handlerName] = cls;
+    target[handlerName] = cls.methods;
+    if (cls.methods) {
+      cls.methods['name'] = handlerName;
+      cls.methods['sequelize'] = sequelize;
+    }
+  });
   for (let m in tables) {
     let seq = sequelize.define(m, tables[m].model.table, tables[m].model.options);
     defineTables[m] = seq;
@@ -61,6 +66,6 @@ module.exports = async function (fastify, options) {
   // let ind = require(options.modelIndex);
   // ind.models = sequelize.models;
   // ind.transaction = sequelize.transaction;
-  require(options.modelIndex).sequelize = sequelize;
+  // target.$sequelize = sequelize;
   // console.log(require(options.modelIndex).models);
 }

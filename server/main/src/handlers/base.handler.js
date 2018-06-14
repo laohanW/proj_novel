@@ -1,6 +1,6 @@
 module.exports = {
   beforeTest: function (req, reply, next) {
-    reply.jwtSign(req.body.payload, function (err, token) {
+    reply.jwtSign(req.body, function (err, token) {
       if (err)reply.send(err)
       else {
         reply.token = token

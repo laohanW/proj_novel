@@ -1,5 +1,6 @@
 const Glob = require('glob');
 const Path = require('path');
+const Debug = require('debug')('plugin:service')
 
 module.exports = async function (server, options) {
   for (let i = 0; i < options.arr.length; i++) {
@@ -18,7 +19,7 @@ module.exports = async function (server, options) {
       let handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
       let cls = load.default || load;
       req[handlerName] = cls;
-      console.log(value, cls)
+      Debug(value, cls)
     });
   }
 }

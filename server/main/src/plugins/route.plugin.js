@@ -2,6 +2,7 @@
 
 const glob = require('glob')
 const Path = require('path')
+const Debug = require('debug')('plugin:route')
 
 module.exports = async function (server, options) {
   const isArray = Array.isArray || function (arr) {
@@ -26,11 +27,11 @@ module.exports = async function (server, options) {
     if (isArray(cls)) {
       cls.forEach(function (element) {
         server.route(element)
-        console.log(element.url)
+        Debug(element.url)
       });
     } else if (isObject(cls)) {
       server.route(cls);
-      console.log(cls.url)
+      Debug(cls.url)
     }
   })
 }

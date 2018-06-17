@@ -3,6 +3,7 @@ const Glob = require('glob');
 const Path = require('path');
 const Sequelize = require('sequelize');
 const LocalStorage = require('continuation-local-storage');
+const Debug = require('debug')('plugin:sequelize')
 module.exports = async function (fastify, options) {
   const namespace = LocalStorage.createNamespace(options.namespace);
   let tables = {};
@@ -33,7 +34,7 @@ module.exports = async function (fastify, options) {
     const conHandlerName = Path.basename(match, Path.extname(match));
     const handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
     const cls = load.default || load;
-    console.log(match)
+    Debug(match)
     tables[handlerName] = cls;
     target[handlerName] = cls.methods;
     if (cls.methods) {

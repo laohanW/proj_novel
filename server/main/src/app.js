@@ -1,5 +1,7 @@
 'use strict';
-const fastify = require('fastify')()
+const fastify = require('fastify')({
+  logger: false
+})
 const Debug = require('debug')
 const Config = require('config')
 const debug = Debug('main:app')

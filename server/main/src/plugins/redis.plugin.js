@@ -3,6 +3,7 @@ const redis = require('redis');
 const Glob = require('glob')
 const Path = require('path')
 const redisClientFactory = require('basic-redis-factory');
+const Debug = require('debug')('plugin:redis')
 module.exports = function (server, options, next) {
   const redisClient = redisClientFactory(redis, options.connection);
   let initalErrorHandler = function (err) {
@@ -29,7 +30,7 @@ module.exports = function (server, options, next) {
       let handlerName = Path.basename(conHandlerName, Path.extname(conHandlerName));
       let cls = load.default || load;
       req[handlerName] = cls;
-      console.log(value, cls)
+      Debug(value, cls)
       cls['redis'] = redisClient
       cls['name'] = handlerName
     });

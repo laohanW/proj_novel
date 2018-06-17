@@ -10,6 +10,12 @@ module.exports = [
   },
   {
     method: 'POST',
+    url: '/administrator/logout',
+    schema: schemas.administrator.logout,
+    handler: handlers.administrator.logout
+  },
+  {
+    method: 'POST',
     url: '/administrator/create',
     schema: schemas.administrator.create,
     beforeHandler: handlers.administrator.beforeCreate,
@@ -17,9 +23,20 @@ module.exports = [
   },
   {
     method: 'POST',
-    url: '/administrator/logout',
-    schema: schemas.base.test,
-    beforeHandler: handlers.base.beforeTest,
-    handler: handlers.base.test
+    url: '/administrator/edit',
+    schema: schemas.administrator.edit,
+    handler: handlers.administrator.edit
+  },
+  {
+    method: 'POST',
+    url: '/administrator/delete',
+    schema: schemas.administrator.delete,
+    handler: handlers.administrator.delete
+  },
+  {
+    method: 'POST',
+    url: '/administrator/getList',
+    schema: schemas.administrator.getList,
+    handler: handlers.administrator.getList
   }
 ]

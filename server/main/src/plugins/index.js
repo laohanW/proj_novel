@@ -25,9 +25,9 @@ module.exports = function (fastify) {
     routePrefix: '/documentation'
   })
   let sepuelizeOptions = JSON.parse(JSON.stringify(Config.get('db')))
-  sepuelizeOptions.logging = function () {
-    return console.log
-  }
+  // sepuelizeOptions.logging = function () {
+  //   return console.log
+  // }
   fastify.register(require('./sequelize.plugin'), {
     pattern: './*.model.js',
     modelIndex: Path.resolve(__dirname, '../models/index.js'),

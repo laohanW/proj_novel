@@ -41,7 +41,7 @@ gulp.task('Eslint_nodemon', ['Eslint'], function () {
       return []
     },
     verbose: true,
-    ignore: ['build/*.js', 'build/*.sh', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log'],
+    ignore: ['build/*.js', 'build/*.sh', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log', '.nyc_output'],
     env: {
       NODE_ENV: 'development'
     },
@@ -60,7 +60,7 @@ gulp.task('nodemon', function () {
       js: jsScript
     },
     verbose: true,
-    ignore: ['build/*.js', 'build/*.sh', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log'],
+    ignore: ['build/*.js', 'build/*.sh', 'dist/*.js', 'nodemon.json', '.git', 'node_modules/**/node_modules', 'gulpfile.js', 'test/**', 'newrelic_agent.log', '.nyc_output'],
     env: {
       NODE_ENV: 'development'
     },
